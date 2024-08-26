@@ -42,7 +42,7 @@ class Shop:
                 new_stock=stock-quantity
                 update_query="UPDATE items SET stock=%s WHERE id=%s"
                 self.db.execute_query(update_query,(new_stock,item_id))
-                sales.query="INSERT INTO sales(item_id,items_quantity,total_price) VALUES (%s,%s,%s)"
+                sales_query="INSERT INTO sales(item_id,items_quantity,total_price)VALUE(%s,%s,%s)"
                 self.db.execute_query(sales_query,(item_id,quantity,total_price))
                 return f"Sold {quantity} of '{name}'. Total Price: {total_price:2f}"
             else:
