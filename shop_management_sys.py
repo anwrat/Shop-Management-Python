@@ -38,7 +38,7 @@ class Shop:
         if item:
             item_id,price,stock=item
             if stock>=quantity:
-                total_price=price+quantity
+                total_price=price*quantity
                 new_stock=stock-quantity
                 update_query="UPDATE items SET stock=%s WHERE id=%s"
                 self.db.execute_query(update_query,(new_stock,item_id))
@@ -58,9 +58,9 @@ class Shop:
         for sale in sales:
             item_name,quantity,total_price=sale
             sales_report.append(f"Item:{item_name},Quantity:{quantity},Total Price: ${total_price}")
-            total_revenue=total_price
+            total_revenue+=total_price
         
-        sales_report.append(f"\nTotal Revenue: $(total_revenue):2f")
+        sales_report.append(f"\nTotal Revenue: ${total_revenue:2f}")
         return"\n".join(sales_report)
     
     def display_inventory(self):
@@ -75,4 +75,5 @@ class Shop:
 if __name__=="__main__":
     shop=Shop()
     shop.sell_item("Orange",10)
+    print(shop.view_sales_report())
     print(shop.display_inventory()) 
