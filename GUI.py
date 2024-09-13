@@ -21,6 +21,9 @@ def view_sales_report():
     result=shop.view_sales_report()
     result_text.insert(END,f"{result}\n")
 
+def show_inventory():
+    result=shop.display_inventory()
+    result_text.insert(END,f"{result}\n")
 root = Tk()
 root.title("Shop Management System")
 
@@ -28,7 +31,7 @@ root.title("Shop Management System")
 frm = ttk.Frame(root, padding=20)
 frm.grid()
 
-ttk.Label(frm, text="Shop Management System").grid(column=0, row=0, columnspan=2)
+ttk.Label(frm, text="Shop Management System",font=('Times New Roman',20,'bold')).grid(column=0, row=0, columnspan=2,pady=(0,20)) #For space between two widgets or padding, use pady
 ttk.Label(frm, text="Name").grid(column=0, row=1)
 name_entry = ttk.Entry(frm)
 name_entry.grid(column=1, row=1)
@@ -37,18 +40,38 @@ ttk.Label(frm, text="Price").grid(column=0, row=2)
 price_entry = ttk.Entry(frm)
 price_entry.grid(column=1, row=2)
 
-ttk.Label(frm, text="Stock").grid(column=0, row=3)
+ttk.Label(frm, text="Stock").grid(column=0, row=3,pady=(0,20))
 stock_entry = ttk.Entry(frm)
-stock_entry.grid(column=1, row=3)
+stock_entry.grid(column=1, row=3,pady=(0,20))
 
 
-ttk.Button(frm, text="Add Item", command=add_item).grid(column=0, row=4)
-ttk.Button(frm, text="Sell Item", command=sell_item).grid(column=1, row=4)
-ttk.Button(frm, text="View Sales", command=view_sales_report).grid(column=2, row=4)
+# Create a new style for the button
+style = ttk.Style(root)
+style.theme_use("default")  # Use 'default' theme for better control
+style.configure(
+    "Custom.TButton",
+    background="green",  # Button background color
+    foreground="white",  # Text color
+    font=("Helvetica", 10, "bold"),
+    borderwidth=1,
+    focusthickness=3,
+    focuscolor="none",
+)
+style.map(
+    "Custom.TButton",
+    background=[("active", "#45a049")],  # Active (hover) state color
+    foreground=[("disabled", "gray")],  # Foreground color when disabled
+)
+
+# Create buttons with the custom style
+ttk.Button(frm, text="Add Item", command=add_item, style="Custom.TButton").grid(column=0, row=4, padx=5, pady=5)
+ttk.Button(frm, text="Sell Item", command=sell_item, style="Custom.TButton").grid(column=1, row=4, padx=5, pady=5)
+ttk.Button(frm, text="View Sales", command=view_sales_report, style="Custom.TButton").grid(column=2, row=4, padx=5, pady=5)
+ttk.Button(frm, text="Display Inventory", command=show_inventory, style="Custom.TButton").grid(column=1, row=5, padx=5, pady=5)
 
 
 # Results Section
-result_frame = LabelFrame(root, text="Results", padx=10, pady=10)
+result_frame = LabelFrame(root, text="Output", padx=10, pady=10)
 result_frame.grid(column=0, row=5, padx=20, pady=10)
 
 # Text widget for displaying results
